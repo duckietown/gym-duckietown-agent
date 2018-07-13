@@ -7,7 +7,7 @@ register(
     reward_threshold=900,
 )
 
-register(
+register( # UNUSED FOR NOW
     id='SimpleSim-Agent-Debug-v0',
     entry_point='gym_duckietown_agent.envs:SimpleSimAgentEnv',
     timestep_limit=500,
