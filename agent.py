@@ -29,6 +29,9 @@ for episode in range(EPISODES):
         # what's the reward the resulting observation
         obs, rew, done, misc = env.step(action)
 
+        if obs is None:
+            continue # need to check for this
+
         if DEBUG:
             print("action {}, reward {}, done {}, misc {}, obs shape {}".format(
                 action,
@@ -54,9 +57,11 @@ for episode in range(EPISODES):
     reward_buf = 0
 
 
-print ("The average reward of {} episodes was {}.".format(
+print ("The average reward of {} episodes was {}. Best episode: {}, worst episode: {}".format(
     EPISODES,
-    np.around(np.mean(rewards),4)
+    np.around(np.mean(rewards),4),
+    np.around(np.max(rewards),4),
+    np.around(np.min(rewards),4)
 ))
 
 env.close()

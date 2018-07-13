@@ -7,9 +7,7 @@ setup(
     install_requires=[
         'gym>=0.9.0',
         'numpy>=1.10.0',
-        'scikit-image>=0.13.1',
-        'opencv-python>=3.4',
-        'pyyaml>=3.12',
-        'duckietown_slimremote>=1.4'
+        'duckietown_slimremote>=1.4.1',
+        'matplotlib'
     ]
 )

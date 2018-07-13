@@ -12,25 +12,22 @@ RUN curl -o ~/miniconda.sh -O  https://repo.continuum.io/miniconda/Miniconda3-la
      chmod +x ~/miniconda.sh && \
      ~/miniconda.sh -b -p /opt/conda && \
      rm ~/miniconda.sh && \
-     /opt/conda/bin/conda install numpy pyyaml scipy ipython mkl mkl-include && \
+     /opt/conda/bin/conda install numpy scipy matplotlib && \
      /opt/conda/bin/conda install -c pytorch magma-cuda90 && \
      /opt/conda/bin/conda clean -ya
 ENV PATH /opt/conda/bin:$PATH
 
-# This must be done before pip so that requirements.txt is available
-WORKDIR /opt/pytorch
-
-RUN git submodule update --init
-RUN TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1 7.0+PTX" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
-    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
-    pip install -v .
-
-RUN git clone https://github.com/pytorch/vision.git && cd vision && pip install -v .
 
 WORKDIR /workspace
 RUN chmod -R a+w /workspace
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends xvfb freeglut3-dev
+# this next line is manually incremented every time
+# we push major changes to the gym-duckietown repo,
+# so that docker forces a rebuild starting at this line
+ENV force-docker-rebuild 3
+
+RUN git clone https://github.com/duckietown/duckietown-slimremote && cd duckietown-slimremote && pip install -e . && cd ..
+
 COPY . /workspace/agent
 RUN cd /workspace/agent && pip install -e .
 
