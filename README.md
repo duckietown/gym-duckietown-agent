@@ -8,7 +8,7 @@ Change into that directory
 
     cd gym-duckietown-agent
     
-Start containers (make sure to always have the latest simulator)
+Start containers (make sure to always have the latest simulator). During the first start this will download the ~2GB `duckietown/gym-duckietown-server` container. This might take a while depending on your internet speed. Afterwards this will build the `gym-duckietown-agent` container, which also might take a few minuts the first time. Successive starts should be ignificantly faster.
 
     docker-compose pull && docker-compose up
 
