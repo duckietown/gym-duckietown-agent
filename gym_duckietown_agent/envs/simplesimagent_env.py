@@ -2,8 +2,7 @@ import os
 
 import gym
 from duckietown_slimremote.pc.robot import RemoteRobot
-from gym import error, spaces, utils
-from gym.utils import seeding
+from gym import spaces
 import numpy as np
 
 from gym_duckietown_agent.config import CAMERA_HEIGHT, CAMERA_WIDTH
@@ -12,21 +11,21 @@ from matplotlib import pyplot as plt
 
 class SimpleSimAgentEnv(gym.Env):
     """
-    Simple road simulator to test RL training.
+    Remote client for the simple Duckietown road simulator.
     Draws a road with turns using OpenGL, and simulates
     basic differential-drive dynamics.
     """
 
     metadata = {
         'render.modes': ['human', 'rgb_array'],
-        'video.frames_per_second': 30  # do we need this on the client?
+        'video.frames_per_second': 30  # TODO: do we need this on the client?
     }
 
     def __init__(self, debug=False):
         # Produce graphical output
-        self.debug = debug
+        self.debug = debug  # CURRENTLY UNUSED
 
-        # in the docker container this will be set to point to the
+        # In the docker container this will be set to point to the
         # hostname of the `gym-duckietown-server` container, but in
         # the local test environment this will just map to localhost
         host = os.getenv("DUCKIETOWN_SERVER", "localhost")
@@ -53,6 +52,8 @@ class SimpleSimAgentEnv(gym.Env):
             shape=(CAMERA_HEIGHT, CAMERA_WIDTH, 3),
             dtype=np.uint8
         )
+
+        # Create a black image buffer for the last observation
         self.last_obs = np.zeros((CAMERA_HEIGHT, CAMERA_WIDTH, 3), np.uint8)
 
         self.reward_range = (-1000, 1000)
@@ -61,7 +62,7 @@ class SimpleSimAgentEnv(gym.Env):
 
         # Initialize the state
         self.seed()
-        self.reset()  # FIXME: I'm quite sure this has to be called by the agent, like by gym convention
+        self.reset()  # FIXME: I'm quite sure this has to be called by the agent by gym convention
 
     def reset(self):
         """
@@ -89,12 +90,27 @@ class SimpleSimAgentEnv(gym.Env):
         return [seed]
 
     def step(self, action):
+        """ Steps the simulation. Run action and get observation and reward.
+
+        :param action: tuple|list|ndarray of exactly 2 floating point values
+        each in range [-1,1] indicating the forward/backward speed and the
+        steering angle respectively.
+
+        :return: tuple of observation (image as ndarray), reward (float
+        scalar), done (bool), misc (empty dict)
+        """
         assert len(action) == 2
         action = np.array(action)
         obs, rew, done = self.sim.step(action, with_observation=True)
         return obs, rew, done, {}
 
     def _create_window(self):
+        """ Create a new matplotlib window if none exists to render
+        observations.
+
+        :return:
+        """
+
         plt.ion()
         plt.ion()
         img = np.zeros((CAMERA_HEIGHT, CAMERA_WIDTH, 3))
@@ -102,12 +118,26 @@ class SimpleSimAgentEnv(gym.Env):
         self._plt_ax = plt.gca()
 
     def _draw_window(self, obs):
+        """ Update the matplotlib observation window.
+
+        :param obs:
+        :return:
+        """
         if obs is not None:
             self._plt_img.set_data(obs)
             self._plt_ax.plot([0])
             plt.pause(0.001)  # I found this necessary - otherwise no visible img
 
     def render(self, mode='human', close=False):
+        """ Either create a matplotlib window of the last observation
+        or return the last observation as ndarray.
+
+        :param mode: string, possible values are "human" for rendering the
+        observations in a matplotlib window and "rgb_array" to return the
+        last observation as ndarray.
+        :param close:
+        :return:
+        """
         obs, _, _ = self.sim.observe()
         if mode == "rgb_array":
             return obs
@@ -117,33 +147,3 @@ class SimpleSimAgentEnv(gym.Env):
                 self._windows_exists = True
             self._draw_window(obs)
 
-
-if __name__ == '__main__':
-    import gym_duckietown_agent
-    import time
-
-    env = gym.make("SimpleSim-Agent-v0")
-
-    env.reset()
-    env.render(mode="human")
-
-    for i in range(100):
-        action = env.action_space.sample()
-        obs, rew, done, misc = env.step(action)
-        env.render(mode="human")
-
-        if obs is None:
-            obs_shape = "-no observation-"
-        else:
-            obs_shape = obs.shape
-
-        print("action: {}, reward: {}, done: {}, misc: {}, obs shape: {}".format(
-            action,
-            rew,
-            done,
-            misc,
-            obs_shape
-        ))
-        time.sleep(0.1)
-
-    env.close()
