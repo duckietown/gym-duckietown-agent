@@ -1,6 +1,7 @@
 version: '3'
 services:
     gym-duckietown-server:
+        build: ./docker/server/
         image: duckietown/gym-duckietown-server
         networks:
         - gym-duckietown-net
@@ -13,6 +14,7 @@ services:
         - "5558:5558"
     gym-duckietown-agent:
         build: ./
+        image: duckietown/gym-duckietown-agent
         depends_on:
         - "gym-duckietown-server"
         environment:
