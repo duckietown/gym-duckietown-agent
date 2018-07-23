@@ -22,8 +22,12 @@ RUN apt-get update && \
     apt-get remove -y git && \
     rm -rf /var/lib/apt/lists/*
 
+## every time you change the agent's code and would
+##like to rebuild, please increment this following integer
+ENV force-docker-rebuild 1
+
 COPY . /workspace/agent
 
 RUN pip install -e /workspace/agent
 
-ENTRYPOINT ["python", "/workspace/agent/agent.py"]
+ENTRYPOINT ["python", "/workspace/agent/agent.py", "--no-render"]

@@ -111,10 +111,27 @@ class SimpleSimAgentEnv(gym.Env):
         :return:
         """
 
-        plt.ion()
+
+        ## This following bit is important because duckietown_slimremote
+        ## uses the Agg backend natively to prevent errors on headless
+        ## servers. So if we want to use matplotlib we have to switch
+        ## the backend
+
+        import matplotlib
+        from matplotlib import pyplot as plt
+        gui_env = ['TKAgg', 'GTKAgg', 'Qt4Agg', 'WXAgg']
+        for gui in gui_env:
+            try:
+                plt.switch_backend(gui)
+                break
+            except:
+                continue
+        print("Using Matplotlib backend:", matplotlib.get_backend())
+
+        ## actually create the render window
         plt.ion()
         img = np.zeros((CAMERA_HEIGHT, CAMERA_WIDTH, 3))
-        self._plt_img = plt.imshow(img, interpolation='none', animated=True, label="blah")
+        self._plt_img = plt.imshow(img, interpolation='none', animated=True, label="Duckiebot Camera")
         self._plt_ax = plt.gca()
 
     def _draw_window(self, obs):
@@ -146,4 +163,3 @@ class SimpleSimAgentEnv(gym.Env):
                 self._create_window()
                 self._windows_exists = True
             self._draw_window(obs)
-

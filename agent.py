@@ -1,6 +1,17 @@
 import gym
 import gym_duckietown_agent  # don't remove this line
 import numpy as np
+import argparse
+parser = argparse.ArgumentParser(
+    description='This is just here to set some '
+                                             'variables on startup')
+parser.add_argument("--no-render",action="store_true",
+                    help="add this flag if you are running "
+                         "this script inside the docker "
+                         "container, so that matplotlib "
+                         "doesn't try to load a graphical "
+                         "backend in a headless server.")
+args = parser.parse_args()
 
 # How many episodes would you like to use for evaluation?
 # This is entirely up to you. For the evaluation we will
@@ -10,6 +21,15 @@ EPISODES = 10
 # Would you like to see the actions, rewards and other
 # informations on each step? Warning, this is very verbose.
 DEBUG = False
+
+# Would you like to see the robot's camera?
+SHOW_CAMERA = True
+
+# if the script runs in a headless docker container
+# we _must_ set SHOW_CAMERA to false anyway.
+if args.no_render:
+    SHOW_CAMERA = False # We recommend you don't change this
+
 
 # Create the gym environment
 env = gym.make("SimpleSim-Agent-v0")
@@ -58,6 +78,9 @@ for episode in range(EPISODES):
                 misc,
                 obs.shape
             ))
+
+        if SHOW_CAMERA:
+            env.render("human") # this might fail if run in a container
 
         # Add reward to buffer
         reward_buf += rew
