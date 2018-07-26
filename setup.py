@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='gym_duckietown_agent',
-    version='0.1',
+    version='1.0',
     keywords='duckietown, environment, agent, rl, openaigym, openai-gym, gym',
     install_requires=[
         'gym>=0.9.0',
