@@ -64,12 +64,6 @@ for episode in range(EPISODES):
         # what's the reward the resulting observation
         obs, rew, done, misc = env.step(action)
 
-        # TODO: we need some more testing if this is still necessary
-        # During testing every once in a while the first frame was black.
-        # I'm not sure what the conditions are for this to happn reliably.
-        if obs is None:
-            continue
-
         if DEBUG:
             print("action {}, reward {}, done {}, misc {}, obs shape {}".format(
                 action,

@@ -60,6 +60,8 @@ class SimpleSimAgentEnv(gym.Env):
 
         self._windows_exists = False
 
+        self.sim_ready = False
+
         # Initialize the state
         self.seed()
         self.reset()  # FIXME: I'm quite sure this has to be called by the agent by gym convention
@@ -101,7 +103,17 @@ class SimpleSimAgentEnv(gym.Env):
         """
         assert len(action) == 2
         action = np.array(action)
+
+
         obs, rew, done = self.sim.step(action, with_observation=True)
+
+        # we need to wait for the first non-empty obs to come in
+        # this is mainly here for compatibility with the real robot
+        if not self.sim_ready:
+            while obs is None:
+                obs, rew, done = self.sim.step(action, with_observation=True)
+            self.sim_ready = True
+
         return obs, rew, done, {}
 
     def _create_window(self):
