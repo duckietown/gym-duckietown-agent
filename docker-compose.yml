@@ -1,11 +1,12 @@
 version: '3'
 services:
     gym-duckietown-server:
-        image: duckietown/gym-duckietown-server
+        image: duckietown/gym-duckietown-server:2018.07.1
         networks:
         - gym-duckietown-net
         environment:
         - DISPLAY=:0
+        - DUCKIETOWN_CHALLENGE=LF
         volumes:
         - /tmp/.X11-unix:/tmp/.X11-unix
         ports:
