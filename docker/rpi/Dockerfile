@@ -51,9 +51,12 @@ RUN wget https://cmake.org/files/v3.4/cmake-3.4.1.tar.gz && \
 
 RUN NO_CUDA=1 NO_DISTRIBUTED=1 python3 setup.py build
 
-RUN echo "Raspberry" > /sys/firmware/devicetree/base/model
-
 WORKDIR /workspace
+
+#This file is expected by duckietown-slimremote, but this directory is read-only
+#TODO: Instead, we should be setting an environement parameter for RPi and read that from duckietown-slimremote/setup.py
+#RUN mkdir -p  /sys/firmware/devicetree/base
+#RUN echo "Raspberry" > /sys/firmware/devicetree/base/model
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends git && \
@@ -65,4 +68,5 @@ COPY . agent
 RUN pip install -e agent
 
 RUN [ "cross-build-end" ]
+
 CMD python agent/agent.py --no-render

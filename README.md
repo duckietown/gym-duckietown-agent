@@ -28,3 +28,25 @@ This should give you a reward output like
 Now edit the file `agent.py`, run the command `docker-compose pull && docker-compose up` again and try to improve your score.
 
 Good luck :)
+
+## Running
+
+### x86
+
+`docker run duckietown/duckietown-gym-agent`
+
+### Raspberry Pi
+
+`docker run duckietown/duckietown-gym-agent:arm`
+
+## Building
+
+Docker images are automatically rebuild from the source. However if you would like to build them yourself, you are free to do so.
+
+### x86
+
+`docker build -t duckietown/duckietown-gym-agent`
+
+### Raspberry Pi
+
+`docker build --file docker/rpi/Dockerfile -t duckietown/duckietown-gym-agent:arm .`
