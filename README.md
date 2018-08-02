@@ -1,5 +1,9 @@
 # gym-duckietown-agent
 
+[![Docker Build Status](https://img.shields.io/docker/build/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
+
+`docker build -t duckietown/duckietown-gym-agent`
+
 Clone this repo:
 
     git clone https://github.com/duckietown/gym-duckietown-agent.git
