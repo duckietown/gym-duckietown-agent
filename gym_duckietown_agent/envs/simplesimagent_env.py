@@ -105,16 +105,16 @@ class SimpleSimAgentEnv(gym.Env):
         action = np.array(action)
 
 
-        obs, rew, done = self.sim.step(action, with_observation=True)
+        obs, rew, done, misc = self.sim.step(action, with_observation=True)
 
         # we need to wait for the first non-empty obs to come in
         # this is mainly here for compatibility with the real robot
         if not self.sim_ready:
             while obs is None:
-                obs, rew, done = self.sim.step(action, with_observation=True)
+                obs, rew, done, misc = self.sim.step(action, with_observation=True)
             self.sim_ready = True
 
-        return obs, rew, done, {}
+        return obs, rew, done, misc
 
     def _create_window(self):
         """ Create a new matplotlib window if none exists to render
@@ -167,7 +167,7 @@ class SimpleSimAgentEnv(gym.Env):
         :param close:
         :return:
         """
-        obs, _, _ = self.sim.observe()
+        obs, _, _, _ = self.sim.observe()
         if mode == "rgb_array":
             return obs
         else:

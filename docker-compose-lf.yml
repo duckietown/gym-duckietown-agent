@@ -1,0 +1,28 @@
+version: '3'
+services:
+    gym-duckietown-server:
+        image: duckietown/gym-duckietown-server:2018.8.1
+        networks:
+        - gym-duckietown-net
+        environment:
+        - DISPLAY=:0
+        - DUCKIETOWN_CHALLENGE=LF
+        volumes:
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        ports:
+        - "8902:8902"
+        - "5558:5558"
+    gym-duckietown-agent:
+        build: ./
+        volumes:
+        - .:/workspace/agent/
+        image: duckietown/gym-duckietown-agent
+        depends_on:
+        - "gym-duckietown-server"
+        environment:
+        - DUCKIETOWN_SERVER=gym-duckietown-server
+        networks:
+        - gym-duckietown-net
+
+networks:
+  gym-duckietown-net:

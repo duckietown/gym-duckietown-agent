@@ -32,7 +32,7 @@ if args.no_render:
 
 
 # Create the gym environment
-env = gym.make("SimpleSim-Agent-v0")
+env = gym.make("Duckietown-Lf-Lfv-Navv-v0")
 
 # Initialize. This is mainly here because it follows the
 # gym convention. There are however few cases where the
@@ -47,6 +47,8 @@ rewards = []
 # In each episode we gather the rewards by adding it to
 # this variable.
 reward_buf = 0.0
+
+challenge = None
 
 for episode in range(EPISODES):
 
@@ -63,6 +65,10 @@ for episode in range(EPISODES):
         # We run the action in the simulation and see
         # what's the reward the resulting observation
         obs, rew, done, misc = env.step(action)
+
+        # We receive the name of the challenge at every time step - just to
+        # make sure we are solving the correct task
+        challenge = misc["challenge"]
 
         if DEBUG:
             print("action {}, reward {}, done {}, misc {}, obs shape {}".format(
@@ -91,7 +97,8 @@ for episode in range(EPISODES):
     rewards.append(reward_buf)
     reward_buf = 0
 
-print("The average reward of {} episodes was {}. Best episode: {}, worst episode: {}".format(
+print("[Challenge: {}] The average reward of {} episodes was {}. Best episode: {}, worst episode: {}".format(
+    challenge,
     EPISODES,
     np.around(np.mean(rewards), 4),
     np.around(np.max(rewards), 4),
