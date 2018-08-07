@@ -111,7 +111,15 @@ class SimpleSimAgentEnv(gym.Env):
         # this is mainly here for compatibility with the real robot
         if not self.sim_ready:
             while obs is None:
-                obs, rew, done, misc = self.sim.step(action, with_observation=True)
+                obs, _, _, _ = self.sim.step(action, with_observation=True)
+
+            # once we actually get the first good observation, i.e. once we are connected
+            # we need to reset the environment (only once) to make sure we start
+            # at timestep 1.
+
+            self.sim.reset()
+            obs, rew, done, misc = self.sim.step(action, with_observation=True)
+
             self.sim_ready = True
 
         return obs, rew, done, misc
