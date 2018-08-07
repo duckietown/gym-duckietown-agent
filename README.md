@@ -60,7 +60,7 @@ To do so, first `cd` to the root directory of this project on your local machine
 
 ### x86
 
-`docker build -t duckietown/duckietown-gym-agent .`
+`docker build -t duckietown/gym-duckietown-agent .`
 
 ### Raspberry Pi
 
