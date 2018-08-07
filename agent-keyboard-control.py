@@ -61,13 +61,11 @@ for episode in range(EPISODES):
         # make sure we are solving the correct task
         challenge = misc["challenge"]
 
-        stdscr.addstr(2, 0, "action {}, reward {}, done {}, misc {}, obs shape {}".format(
-            action,
-            np.around(rew,3),
-            done,
-            misc,
-            obs.shape
-        ))
+        stdscr.addstr(2, 0, "action {}".format(action))
+        stdscr.addstr(3, 0, "reward {}".format(np.around(rew,3)))
+        stdscr.addstr(4, 0, "done {}".format(done))
+        stdscr.addstr(5, 0, "misc {}".format(misc))
+        stdscr.addstr(6, 0, "obs shape {}".format(obs.shape))
 
         env.render("human") # this might fail if run in a container
 
