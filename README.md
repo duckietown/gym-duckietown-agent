@@ -1,6 +1,6 @@
 # gym-duckietown-agent
 
-[![Docker Build Status](https://img.shields.io/docker/build/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
+[![Docker Build Status](https://img.shields.io/docker/pulls/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
 
 `docker build -t duckietown/duckietown-gym-agent`
 
@@ -8,7 +8,7 @@ Clone this repo:
 
     git clone https://github.com/duckietown/gym-duckietown-agent.git
     
-Change into that directory
+Change into that directory:
 
     cd gym-duckietown-agent
     
@@ -44,22 +44,32 @@ Good luck :)
 
 ## Running
 
+The `duckietown/gym-duckietown-agent` image is based ontop of the official PyTorch image, [`pytorch/pytorch`](https://hub.docker.com/r/pytorch/pytorch/). You can use this image as a template for implementing your own agent. It runs on both x86 and ARM platforms.
+
 ### x86
 
-`docker run duckietown/duckietown-gym-agent`
+`docker run -it duckietown/gym-duckietown-agent python -c "import torch; print(torch.randn(10))"`
 
 ### Raspberry Pi
 
-`docker run duckietown/duckietown-gym-agent:arm`
+`docker run -it duckietown/gym-duckietown-agent:arm python -c "import torch; print(torch.randn(10))"`
 
 ## Building
 
-Docker images are automatically rebuild from the source. However if you would like to build them yourself, you are free to do so.
+Docker images for x86 and ARM are automatically rebuilt from this GitHub repository, however you can also rebuild them yourself.
+
+To do so, first `cd` to the root directory of this project on your local machine. Then, depending on which platform you are targeting, run one of the following commands:
 
 ### x86
 
-`docker build -t duckietown/duckietown-gym-agent`
+`docker build -t duckietown/gym-duckietown-agent .`
 
 ### Raspberry Pi
 
-`docker build --file docker/rpi/Dockerfile -t duckietown/duckietown-gym-agent:arm .`
+`docker build --file docker/rpi/Dockerfile -t duckietown/gym-duckietown-agent:arm .`
+
+## Write your own agent
+
+To write your own agent, first fork this repository, put your code [here](https://github.com/duckietown/gym-duckietown-agent/blob/master/agent.py#L58:L63). Then run the following command from the root directory of this project on your local machine to evaluate its performance:
+
+`docker build -t duckietown/gym-duckietown-agent . && docker-compose -f docker-compose-lf.yml up`

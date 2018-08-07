@@ -1,14 +1,6 @@
-FROM nvidia/cuda:9.1-cudnn7-devel-ubuntu16.04
+FROM pytorch/pytorch
 
-ADD https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh miniconda.sh
-
-RUN sh miniconda.sh -b -p /opt/conda && rm miniconda.sh
-
-ENV PATH /opt/conda/bin:$PATH
-
-RUN conda install numpy scipy matplotlib && \
-    conda install -c pytorch magma-cuda91 && \
-    conda clean -ya
+RUN conda install numpy scipy matplotlib && conda clean -ya
 
 WORKDIR workspace
 
