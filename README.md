@@ -1,6 +1,6 @@
 # gym-duckietown-agent
 
-[![Docker Build Status](https://img.shields.io/docker/build/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
+[![Docker Build Status](https://img.shields.io/docker/pulls/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
 
 `docker build -t duckietown/duckietown-gym-agent`
 
@@ -54,11 +54,13 @@ Good luck :)
 
 ## Building
 
-Docker images are automatically rebuild from the source. However if you would like to build them yourself, you are free to do so.
+Docker images for x86 and ARM are automatically rebuilt from this GitHub repository, however you can also rebuild them yourself.
+
+To do so, first `cd` to the root directory of this project on your local machine. Then, depending on which platform you are targeting, run one of the following commands:
 
 ### x86
 
-`docker build -t duckietown/duckietown-gym-agent`
+`docker build -t duckietown/duckietown-gym-agent .`
 
 ### Raspberry Pi
 
