@@ -46,11 +46,11 @@ Good luck :)
 
 ### x86
 
-`docker run duckietown/duckietown-gym-agent`
+`docker run duckietown/gym-duckietown-agent`
 
 ### Raspberry Pi
 
-`docker run duckietown/duckietown-gym-agent:arm`
+`docker run duckietown/gym-duckietown-agent:arm`
 
 ## Building
 
