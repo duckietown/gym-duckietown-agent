@@ -64,4 +64,4 @@ To do so, first `cd` to the root directory of this project on your local machine
 
 ### Raspberry Pi
 
-`docker build --file docker/rpi/Dockerfile -t duckietown/duckietown-gym-agent:arm .`
+`docker build --file docker/rpi/Dockerfile -t duckietown/gym-duckietown-agent:arm .`
