@@ -1,4 +1,5 @@
 import os
+import time
 
 import gym
 from duckietown_slimremote.pc.robot import RemoteRobot
@@ -21,9 +22,9 @@ class SimpleSimAgentEnv(gym.Env):
         'video.frames_per_second': 30  # TODO: do we need this on the client?
     }
 
-    def __init__(self, debug=False):
-        # Produce graphical output
-        self.debug = debug  # CURRENTLY UNUSED
+    def __init__(self, silent=False):
+        # Produce the occasional print
+        self.silent = silent
 
         # In the docker container this will be set to point to the
         # hostname of the `gym-duckietown-server` container, but in
@@ -31,7 +32,7 @@ class SimpleSimAgentEnv(gym.Env):
         host = os.getenv("DUCKIETOWN_SERVER", "localhost")
 
         # Create ZMQ connection
-        self.sim = RemoteRobot(host)
+        self.sim = RemoteRobot(host, silent=self.silent)
 
         # Tuple of velocity and steering angle, each in the range
         # [-1, 1] for full speed ahead, full speed backward, full
@@ -59,8 +60,6 @@ class SimpleSimAgentEnv(gym.Env):
         self.reward_range = (-1000, 1000)
 
         self._windows_exists = False
-
-        self.sim_ready = False
 
         # Initialize the state
         self.seed()
@@ -107,21 +106,6 @@ class SimpleSimAgentEnv(gym.Env):
 
         obs, rew, done, misc = self.sim.step(action, with_observation=True)
 
-        # we need to wait for the first non-empty obs to come in
-        # this is mainly here for compatibility with the real robot
-        if not self.sim_ready:
-            while obs is None:
-                obs, _, _, _ = self.sim.step(action, with_observation=True)
-
-            # once we actually get the first good observation, i.e. once we are connected
-            # we need to reset the environment (only once) to make sure we start
-            # at timestep 1.
-
-            self.sim.reset()
-            obs, rew, done, misc = self.sim.step(action, with_observation=True)
-
-            self.sim_ready = True
-
         return obs, rew, done, misc
 
     def _create_window(self):
@@ -146,7 +130,9 @@ class SimpleSimAgentEnv(gym.Env):
                 break
             except:
                 continue
-        print("Using Matplotlib backend:", matplotlib.get_backend())
+
+        if not self.silent:
+            print("Using Matplotlib backend:", matplotlib.get_backend())
 
         ## actually create the render window
         plt.ion()
