@@ -1,11 +1,14 @@
 import gym
+from tqdm import tqdm
+
 import gym_duckietown_agent  # don't remove this line
 import numpy as np
 import argparse
+
 parser = argparse.ArgumentParser(
     description='This is just here to set some '
-                                             'variables on startup')
-parser.add_argument("--no-render",action="store_true",
+                'variables on startup')
+parser.add_argument("--no-render", action="store_true",
                     help="add this flag if you are running "
                          "this script inside the docker "
                          "container, so that matplotlib "
@@ -28,11 +31,10 @@ SHOW_CAMERA = True
 # if the script runs in a headless docker container
 # we _must_ set SHOW_CAMERA to false anyway.
 if args.no_render:
-    SHOW_CAMERA = False # We recommend you don't change this
-
+    SHOW_CAMERA = False  # We recommend you don't change this
 
 # Create the gym environment
-env = gym.make("Duckietown-Lf-Lfv-Navv-v0")
+env = gym.make("Duckietown-Lf-Lfv-Navv-Silent-v0")
 
 # Initialize. This is mainly here because it follows the
 # gym convention. There are however few cases where the
@@ -50,10 +52,12 @@ reward_buf = 0.0
 
 challenge = None
 
-for episode in range(EPISODES):
+# we are wrapping the iterator in TQDM because that gives
+# us a nice progress bar
+for episode in tqdm(range(EPISODES), desc="episode"):
 
-    # 500 is the default max episode length for the LF task
-    for frame in range(500):
+    # 500 is the default max episode length for the LF/LFV task
+    for frame in tqdm(range(500), desc="frame"):
 
         ### THIS IS WHAT YOU HAVE TO REPLACE WITH MACHINE LEARNING MAGIC - START
 
@@ -80,7 +84,7 @@ for episode in range(EPISODES):
             ))
 
         if SHOW_CAMERA:
-            env.render("human") # this might fail if run in a container
+            env.render("human")  # this might fail if run in a container
 
         # Add reward to buffer
         reward_buf += rew
@@ -97,7 +101,8 @@ for episode in range(EPISODES):
     rewards.append(reward_buf)
     reward_buf = 0
 
-print("[Challenge: {}] The average reward of {} episodes was {}. Best episode: {}, worst episode: {}".format(
+print("[Challenge: {}] The average reward of {} episodes was {}. "
+      "Best episode: {}, worst episode: {}".format(
     challenge,
     EPISODES,
     np.around(np.mean(rewards), 4),
