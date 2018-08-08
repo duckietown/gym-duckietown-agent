@@ -7,7 +7,7 @@ RUN apt-get update -y && \
     pip install -e git+https://github.com/duckietown/duckietown-slimremote.git#egg=duckietown-slimremote && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR workspace
+WORKDIR /workspace
 
 COPY . agent
 

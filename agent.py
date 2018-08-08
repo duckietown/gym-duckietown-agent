@@ -101,6 +101,8 @@ for episode in tqdm(range(EPISODES), desc="episode"):
     rewards.append(reward_buf)
     reward_buf = 0
 
+print("\n."*5, flush=True) # this is due to TQDM - to create space
+
 print("[Challenge: {}] The average reward of {} episodes was {}. "
       "Best episode: {}, worst episode: {}".format(
     challenge,
