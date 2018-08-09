@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 	cmake \
 	make \
 	wget \
+        python-numpy \
 	libffi-dev && \
 	rm -rf /var/lib/apt/lists/* 
 
@@ -32,10 +33,10 @@ RUN pip3 install \
     matplotlib \
     wheel \
     typing \
-    numpy \
     scipy \
     pyyaml \
     cffi \
+    --index-url https://www.piwheels.org/simple
 
 ARG CC=/usr/bin/gcc-6
 ARG CXX=/usr/bin/g++-6
