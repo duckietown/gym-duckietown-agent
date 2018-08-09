@@ -36,7 +36,6 @@ RUN pip3 install \
     scipy \
     pyyaml \
     cffi \
-    --index-url https://www.piwheels.org/simple
 
 ARG CC=/usr/bin/gcc-6
 ARG CXX=/usr/bin/g++-6
@@ -66,6 +65,10 @@ RUN apt-get update -y && \
 COPY . agent
 
 RUN pip install -e agent
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        libatlas-base-dev && \
+	rm -rf /var/lib/apt/lists/* 
 
 RUN [ "cross-build-end" ]
 
