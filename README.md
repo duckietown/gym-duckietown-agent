@@ -1,6 +1,6 @@
 # gym-duckietown-agent
 
-[![Docker Build Status](https://img.shields.io/docker/pulls/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
+[![Docker Hub](https://img.shields.io/docker/pulls/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
 
 `docker build -t duckietown/duckietown-gym-agent`
 
