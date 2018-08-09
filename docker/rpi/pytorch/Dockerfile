@@ -55,6 +55,8 @@ RUN wget https://cmake.org/files/v3.4/cmake-3.4.1.tar.gz && \
     make install && \
     rm -rf ../cmake-3.4.1.tar.gz
 
+WORKDIR pytorch
+
 # Install Pytorch
 RUN NO_CUDA=1 NO_DISTRIBUTED=1 python3 setup.py build install
 
