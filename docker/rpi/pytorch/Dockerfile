@@ -2,7 +2,6 @@ FROM resin/raspberrypi3-python:3.4-slim
 
 RUN [ "cross-build-start" ]
 
-
 # Clone Pytorch
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git && \
@@ -19,7 +18,6 @@ RUN sed -i 's/jessie/stretch/g' /etc/apt/sources.list && \
     apt-get update && apt-get install --no-install-recommends -y \
     gcc-6 \
     libopenblas-dev \
-    cython \
     libatlas-dev \
     m4 \
     libblas-dev \
@@ -31,10 +29,10 @@ RUN sed -i 's/jessie/stretch/g' /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/*
 
 # Don't trust PiWheels numpy. Something is wrong with it...
-RUN pip3 install numpy
+RUN pip install cython numpy
 
 # Everything else seems to be okay
-RUN pip3 install --index-url https://www.piwheels.org/simple \
+RUN pip install --index-url https://www.piwheels.org/simple \
     setuptools \
     matplotlib \
     wheel \

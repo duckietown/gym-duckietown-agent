@@ -9,18 +9,22 @@ WORKDIR /workspace
 #RUN mkdir -p  /sys/firmware/devicetree/base
 #RUN echo "Raspberry" > /sys/firmware/devicetree/base/model
 
+RUN pip uninstall -y cython numpy
+RUN pip install cython numpy
+
+
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends git \
+    python-dev \
+    build-essential \
+    libatlas-base-dev && \
     pip install -e git+https://github.com/duckietown/duckietown-slimremote.git#egg=duckietown-slimremote && \
+    apt-get remove -y git && \
     rm -rf /var/lib/apt/lists/*
 
 COPY . agent
 
 RUN pip install -e agent
-
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        libatlas-base-dev && \
-    rm -rf /var/lib/apt/lists/* 
 
 RUN [ "cross-build-end" ]
 
