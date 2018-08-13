@@ -9,10 +9,6 @@ WORKDIR /workspace
 #RUN mkdir -p  /sys/firmware/devicetree/base
 #RUN echo "Raspberry" > /sys/firmware/devicetree/base/model
 
-RUN pip uninstall -y cython numpy
-RUN pip install cython numpy
-
-
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends git \
     python-dev \
