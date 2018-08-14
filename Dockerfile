@@ -25,8 +25,6 @@ COPY . agent
 
 RUN pip install -e agent
 
-#RUN pip uninstall -y matplotlib && pip install matplotlib
-
 RUN [ "cross-build-end" ]
 
 CMD python agent/agent.py --no-render
