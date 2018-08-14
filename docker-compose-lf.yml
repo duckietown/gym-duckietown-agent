@@ -16,7 +16,7 @@ services:
         build: ./
         volumes:
         - .:/workspace/agent/
-        image: duckietown/gym-duckietown-agent:arm
+        image: duckietown/gym-duckietown-agent
         entrypoint: qemu-arm-static
         command: /usr/local/bin/python agent/agent.py --no-render
         depends_on:
