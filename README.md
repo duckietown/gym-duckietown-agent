@@ -2,18 +2,21 @@
 
 [![Docker Hub](https://img.shields.io/docker/pulls/duckietown/gym-duckietown-agent.svg)](https://hub.docker.com/r/duckietown/gym-duckietown-agent)
 
-Welcome to the `gym-duckietown-agent`, the default template for machine learning [AI-DO](https://www.duckietown.org/research/AI-Driving-Olympics) submissions. It runs on [PyTorch](https://pytorch.org/), [numpy](https://pytorch.org/), [scipy](https://www.scipy.org/) and some other useful libraries for machine learning, however you can customize it to your liking.
+Welcome to the `gym-duckietown-agent`, the default template for machine learning [AI-DO](https://www.duckietown.org/research/AI-Driving-Olympics) submissions. It runs [PyTorch](https://pytorch.org/), [numpy](https://pytorch.org/), [scipy](https://www.scipy.org/) and some other useful libraries for machine learning, however you can [customize it](#customizing) to your liking.
 
-There are two versions of the `gym-duckietown-agent`, both built from this repository and available on [Docker Hub](https://hub.docker.com/r/duckietown/gym-duckietown-agent). The default version, [`duckietown/gym-duckietown-agent`](https://github.com/duckietown/gym-duckietown-agent/blob/master/Dockerfile), runs on x86 and ARM devices, and is available on Docker Hub. The GPU enabled version, [`duckietown/gym-duckietown-agent:gpu`](https://github.com/duckietown/gym-duckietown-agent/blob/master/docker/gpu/Dockerfile), runs on x86 or GPU-powered machines with [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker). Both of these depend on the [`duckietown/gym-duckietown`](https://github.com/duckietown/gym-duckietown) simulator, or a compatible messaging interface. Below, you will find instructions for installing and running these tools.
+There are two versions of the `gym-duckietown-agent`, both built from this repository and available on [Docker Hub](https://hub.docker.com/r/duckietown/gym-duckietown-agent). The default version, [`duckietown/gym-duckietown-agent`](https://github.com/duckietown/gym-duckietown-agent/blob/master/Dockerfile), runs on x86 and ARM devices. The GPU enabled version, [`duckietown/gym-duckietown-agent:gpu`](https://github.com/duckietown/gym-duckietown-agent/blob/master/docker/gpu/Dockerfile), runs on x86 or GPU-powered machines with [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker). Both of these depend on the [`duckietown/gym-duckietown`](https://github.com/duckietown/gym-duckietown) simulator, or a compatible messaging interface. Below, you will find instructions for installing and running a `gym-duckietown-agent` container.
 
 ## Prerequisites
 
+To enable fully reproducible software environments, we use a tool called [Docker](https://www.docker.com/). For your convenience, we have prepared some [reading material about Docker](http://docs.duckietown.org/software_devel/out/docker_intro.html).
+
 * [git](https://git-scm.com/downloads)
 * [Docker CE](https://docs.docker.com/install/) or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) (for GPU acceleration)
+* [docker-compose](https://docs.docker.com/compose/install/) - this allows you to "compose" or "orchestrate" multiple Docker containers into a functional system.
 
 ## Setup
 
-To get started, clone this git repo and enter the project directory:
+To get started, clone this git repository and enter the project directory:
 
     git clone https://github.com/duckietown/gym-duckietown-agent.git && cd gym-duckietown-agent
     
@@ -98,4 +101,4 @@ By default, we provide a working PyTorch installation, however you can use your 
 * [TensorFlow](https://www.tensorflow.org/) ([works on RPi](https://www.tensorflow.org/install/install_raspbian))
 * [mxnet](https://mxnet.apache.org/) ([also works on RPi](https://mxnet.incubator.apache.org/tutorials/embedded/wine_detector.html))
 
-To enable fully reproducible software environments, we use a tool called [Docker](https://www.docker.com/). To modify the default distribution, modify the `Dockerfile` (or `docker/gpu/Dockerfile` if you are using a GPU) and rebuild the image using the [build instructions](#building).
+To modify the default distribution, modify the `Dockerfile` (or `docker/gpu/Dockerfile` if you are using a GPU) and rebuild the image using the [build instructions](#building).
