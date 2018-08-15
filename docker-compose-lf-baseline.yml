@@ -17,8 +17,6 @@ services:
         volumes:
         - .:/workspace/agent/
         image: duckietown/gym-duckietown-agent:gpu
-        entrypoint: qemu-arm-static
-        command: /usr/local/bin/python agent/agent.py --no-render
         depends_on:
         - "gym-duckietown-server"
         environment:
