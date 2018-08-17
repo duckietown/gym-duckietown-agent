@@ -1,6 +1,6 @@
+from __future__ import print_function
 import gym
 from tqdm import tqdm
-
 import gym_duckietown_agent  # don't remove this line
 import numpy as np
 import argparse
