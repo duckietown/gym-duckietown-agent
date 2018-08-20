@@ -39,6 +39,7 @@ RUN pip install --index-url https://www.piwheels.org/simple \
     typing \
     scipy \
     pyyaml \
+    pyzmq \
     cffi
     
 ARG CC=/usr/bin/gcc-6
