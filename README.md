@@ -8,7 +8,7 @@ There are two versions of the `gym-duckietown-agent`, both built from this repos
 
 ## Prerequisites
 
-To enable fully reproducible software environments, we use a tool called [Docker](https://www.docker.com/). For your convenience, we have prepared some [reading material about Docker](http://docs.duckietown.org/software_devel/out/docker_intro.html).
+To enable fully reproducible software environments, we use a container tool called [Docker](https://www.docker.com/). For your convenience, we have prepared some [reading material about Docker](http://docs.duckietown.org/software_devel/out/docker_intro.html).
 
 * [git](https://git-scm.com/downloads)
 * [Docker CE](https://docs.docker.com/install/) or [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) (for GPU acceleration)
@@ -16,13 +16,13 @@ To enable fully reproducible software environments, we use a tool called [Docker
 
 ## Setup
 
-To get started, clone this git repository and enter the project directory:
+To get started, fork or clone this git repository and `cd` into the project directory:
 
     git clone https://github.com/duckietown/gym-duckietown-agent.git && cd gym-duckietown-agent
     
-Now, you will start the Docker containers (always make sure to have the latest simulator). During the first start this will download the ~2GB `duckietown/gym-duckietown-server` container. This might take a while depending on your bandwidth. Due to layer caching, successive starts should be significantly faster.
+Now, start the Docker containers (always make sure to have the latest simulator). On first start this will download the ~2GB `duckietown/gym-duckietown-server` container. Due to layer caching, successive starts should be significantly faster.
 
-There are [several challenges](http://docs.duckietown.org/AIDO/out/ml_primer.html) to run.
+[Several competition challenges](http://docs.duckietown.org/AIDO/out/ml_primer.html) are available to run.
 
 ### To run the Lane Following (LF) task:
 
@@ -49,18 +49,16 @@ By default, Docker will use the ARM-emulator when running on x86, however you ca
 
 ## Write your own agent
 
-To write your own agent, first fork this repository, edit the file `agent.py` located [here](https://github.com/duckietown/gym-duckietown-agent/blob/master/agent.py#L58:L63). Then run the following command from the root directory of this project on your local machine to evaluate its performance:
+To write your own agent, first fork this repository, and edit the file [`agent.py`](agent.py). Then run the following command from the root directory of this project on your local machine to evaluate the agent's performance:
 
     docker build -t duckietown/gym-duckietown-agent . && \
     docker-compose -f docker-compose-lf.yml up`
 
-Check the average reward and try to improve your score.
-
-Good luck! :)
+Check the average reward and try to improve your score. Good luck!
 
 ## Running
 
-The `duckietown/gym-duckietown-agent` image is based ontop of the official PyTorch image, [`pytorch/pytorch`](https://hub.docker.com/r/pytorch/pytorch/). You can use this image as a template for implementing your own agent. It runs on both x86 and ARM platforms.
+The `duckietown/gym-duckietown-agent[:gpu]` Docker image is based on [PyTorch](https://hub.docker.com/r/pytorch/pytorch/). You can use this image as a template for implementing your own agent. It runs on both x86 and ARM platforms.
 
 ### ARM/x86
 
@@ -72,9 +70,9 @@ The `duckietown/gym-duckietown-agent` image is based ontop of the official PyTor
 
 ## Building
 
-Docker images for x86 and ARM are automatically rebuilt from this GitHub repository, however you can also rebuild themwhen you make changes to the code.
+Docker images for x86 and ARM are automatically rebuilt from this GitHub repository, however you should rebuild them locally when you want to test changes to the code.
 
-To do so, first `cd` to the root directory of this project on your local machine. Then, depending on which platform you are targeting, run one of the following commands:
+To do so, first `cd` to the project directory on your local machine. Then, depending on whether you are targeting ARM/x86 or GPU, run one of the following commands:
 
 ### ARM/x86
 
@@ -86,19 +84,19 @@ To do so, first `cd` to the root directory of this project on your local machine
 
 ## Submitting
 
-When the competition opens, you will [submit](https://github.com/duckietown/duckietown-shell#ai-do-submissions) your Docker image to us using `dt`, the [Duckietown Shell](https://github.com/duckietown/duckietown-shell):
+When the competition opens, you will [submit](https://github.com/duckietown/duckietown-shell#ai-do-submissions) your Docker image `dt`, the [Duckietown Shell](https://github.com/duckietown/duckietown-shell):
 
     dt aido18 submit <YOUR_DOCKER_HUB_USERNAME>/<YOUR_IMAGE_BASED_ON_GYM_DUCKIETOWN_AGENT>
 
-This Docker image will contain the pretrained model. If it is a GPU model, we will run it on the simulator only. If it is a ARM image, we will evaluate your submission and run it on a physical robot.
+This Docker image will contain a pretrained model. If you send us a GPU model, we will run it on the simulator only. If you send us an ARM image, we will evaluate the submission and run it on a physical robot, then send you a link to the log.
 
-Subsequently, we will evaluate it on some randomized environments, and rank your submission on a leaderboard. If you elect to participate in the robotarium challenge, you will need to submit an ARM-based image.
+Subsequently, we will evaluate it on some randomized environments, and rank your submission on a leaderboard. Should you wish to participate in the robotarium challenge, you will need to submit an ARM-based image.
 
 ## Customizing
 
-By default, we provide a working PyTorch installation, however you can use your favorite machine libraries. The only hard requirement is [`duckietown-slimremote`](https://github.com/duckietown/duckietown-slimremote) and this template. Here are some useful alternatives:
+By default, we provide a working PyTorch installation, however you can customize the `duckietown/gym-duckietown-agent` Dockerfile to use your favorite machine learning libraries. The only hard requirement is [`duckietown-slimremote`](https://github.com/duckietown/duckietown-slimremote) to interact with the simulator and this template. Here are some other popular machine learning libraries:
 
 * [TensorFlow](https://www.tensorflow.org/) ([works on RPi](https://www.tensorflow.org/install/install_raspbian))
 * [mxnet](https://mxnet.apache.org/) ([also works on RPi](https://mxnet.incubator.apache.org/tutorials/embedded/wine_detector.html))
 
-To modify the default distribution, modify the `Dockerfile` (or `docker/gpu/Dockerfile` if you are using a GPU) and rebuild the image using the [build instructions](#building).
+To customize the default distribution, modify the [`Dockerfile`](Dockerfile) (or [`docker/gpu/Dockerfile`](docker/gpu/Dockerfile) if you are using a GPU) and rebuild the image using the [build instructions](#building).
