@@ -84,17 +84,17 @@ To do so, first `cd` to the project directory on your local machine. Then, depen
 
 ## Submitting
 
-When the competition opens, you will [submit](https://github.com/duckietown/duckietown-shell#ai-do-submissions) your Docker image `dt`, the [Duckietown Shell](https://github.com/duckietown/duckietown-shell):
+When the competition opens, you will [submit](https://github.com/duckietown/duckietown-shell#ai-do-submissions) your Docker image using `dt`, the [Duckietown Shell](https://github.com/duckietown/duckietown-shell) like so:
 
     dt aido18 submit <YOUR_DOCKER_HUB_USERNAME>/<YOUR_IMAGE_BASED_ON_GYM_DUCKIETOWN_AGENT>
 
-This Docker image will contain a pretrained model. If you send us a GPU model, we will run it on the simulator only. If you send us an ARM image, we will evaluate the submission and run it on a physical robot, then send you a link to the log.
+The referenced Docker image will contain a pretrained model which you have trained locally. If you send us a GPU model, we will run it on the simulator only. If you send us an ARM image, we will evaluate the submission and run it on a physical robot, then send you a link to the corresponding log. Should you wish to participate in the robotarium challenge, you must submit an ARM-based image.
 
-Subsequently, we will evaluate it on some randomized environments, and rank your submission on a leaderboard. Should you wish to participate in the robotarium challenge, you will need to submit an ARM-based image.
+The leaderboard evaluation will occur in some randomized environments - so be careful not to overfit! 
 
 ## Customizing
 
-By default, we provide a working PyTorch installation, however you can customize the `duckietown/gym-duckietown-agent` Dockerfile to use your favorite machine learning libraries. The only hard requirement is [`duckietown-slimremote`](https://github.com/duckietown/duckietown-slimremote) to interact with the simulator and this template. Here are some other popular machine learning libraries:
+By default, we provide a working PyTorch installation, however you can customize the `duckietown/gym-duckietown-agent` Dockerfile to use your favorite machine learning libraries. The only hard requirement is [`duckietown-slimremote`](https://github.com/duckietown/duckietown-slimremote) to interact with the simulator. Here are some other popular machine learning libraries:
 
 * [TensorFlow](https://www.tensorflow.org/) ([works on RPi](https://www.tensorflow.org/install/install_raspbian))
 * [mxnet](https://mxnet.apache.org/) ([also works on RPi](https://mxnet.incubator.apache.org/tutorials/embedded/wine_detector.html))
