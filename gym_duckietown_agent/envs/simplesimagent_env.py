@@ -63,7 +63,7 @@ class SimpleSimAgentEnv(gym.Env):
 
         # Initialize the state
         self.seed()
-        self.reset()  # FIXME: I'm quite sure this has to be called by the agent by gym convention
+        #self.reset()  # FIXME: I'm quite sure this has to be called by the agent by gym convention
 
     def reset(self):
         """
@@ -71,7 +71,7 @@ class SimpleSimAgentEnv(gym.Env):
         This also randomizes many environment parameters (domain randomization)
         """
 
-        self.sim.reset()
+        return self.sim.reset()
 
     def close(self):
         """
