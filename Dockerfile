@@ -1,5 +1,7 @@
 FROM duckietown/pytorch
 
+ENV QEMU_EXECVE 1
+
 RUN [ "cross-build-start" ]
 
 WORKDIR /workspace
