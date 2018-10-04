@@ -17,7 +17,7 @@ services:
         volumes:
         - .:/workspace/agent/
         image: duckietown/gym-duckietown-agent:gpu
-        command: /usr/local/bin/python agent/agent.py --no-render
+        command: python agent/agent.py --no-render
         depends_on:
         - "gym-duckietown-server"
         environment:

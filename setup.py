@@ -8,7 +8,7 @@ setup(
         'gym>=0.9.0',
         'numpy>=1.10.0',
         'duckietown_slimremote>=2018.8.3',
-        'matplotlib',
+        'matplotlib==2.2.3',
         'tqdm>=4.0.0'
     ]
 )
