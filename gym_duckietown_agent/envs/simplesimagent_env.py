@@ -1,5 +1,4 @@
 import os
-import time
 
 import gym
 from duckietown_slimremote.pc.robot import RemoteRobot
