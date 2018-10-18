@@ -5,7 +5,6 @@ from duckietown_slimremote.pc.robot import RemoteRobot
 from gym import spaces
 import numpy as np
 
-from gym_duckietown_agent.config import CAMERA_HEIGHT, CAMERA_WIDTH
 from matplotlib import pyplot as plt
 
 
@@ -21,7 +20,7 @@ class SimpleSimAgentEnv(gym.Env):
         'video.frames_per_second': 30  # TODO: do we need this on the client?
     }
 
-    def __init__(self, silent=False):
+    def __init__(self, silent, camera_width, camera_height):
         # Produce the occasional print
         self.silent = silent
 
@@ -46,15 +45,17 @@ class SimpleSimAgentEnv(gym.Env):
         # We observe an RGB image with pixels in [0, 255]
         # Note: the pixels are in uint8 format because this is more compact
         # than float32 if sent over the network or stored in a dataset
+        self.shape = (camera_height, camera_width, 3)
+        dtype = np.uint8
         self.observation_space = spaces.Box(
             low=0,
             high=255,
-            shape=(CAMERA_HEIGHT, CAMERA_WIDTH, 3),
-            dtype=np.uint8
+            shape=self.shape,
+            dtype=dtype,
         )
 
         # Create a black image buffer for the last observation
-        self.last_obs = np.zeros((CAMERA_HEIGHT, CAMERA_WIDTH, 3), np.uint8)
+        self.last_obs = np.zeros(self.shape, dtype)
 
         self.reward_range = (-1000, 1000)
 
@@ -135,7 +136,7 @@ class SimpleSimAgentEnv(gym.Env):
 
         ## actually create the render window
         plt.ion()
-        img = np.zeros((CAMERA_HEIGHT, CAMERA_WIDTH, 3))
+        img = np.zeros(self.shape)
         self._plt_img = plt.imshow(img, interpolation='none', animated=True, label="Duckiebot Camera")
         self._plt_ax = plt.gca()
 
