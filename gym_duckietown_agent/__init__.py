@@ -1,3 +1,11 @@
+__version__ = '2018.8.6'
+
+import logging
+logging.basicConfig()
+logger = logging.getLogger('gym-duckietown-agent')
+logger.setLevel(logging.DEBUG)
+logger.info('gym-duckietown-agent %s' % __version__)
+
 from gym.envs.registration import register
 
 register(
