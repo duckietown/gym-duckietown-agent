@@ -18,7 +18,7 @@ register(
 )
 
 register(
-    id='Duckietown-Lf-Lfv-Navv-Silent-v0-640',
+    id='Duckietown-Lf-Lfv-Navv-Silent-v0-large',
     entry_point='gym_duckietown_agent.envs:SimpleSimAgentEnv',
     timestep_limit=500,
     reward_threshold=900,
