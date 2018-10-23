@@ -52,7 +52,7 @@ By default, Docker will use the ARM-emulator when running on x86, however you ca
 To write your own agent, first fork this repository, and edit the file [`agent.py`](agent.py). Then run the following command from the root directory of this project on your local machine to evaluate the agent's performance:
 
     docker build -t duckietown/gym-duckietown-agent . && \
-    docker-compose -f docker-compose-lf.yml up`
+    docker-compose -f docker-compose-lf.yml up
 
 Check the average reward and try to improve your score. Good luck!
 
