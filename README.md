@@ -86,7 +86,7 @@ To do so, first `cd` to the project directory on your local machine. Then, depen
 
 When the competition opens, you will [submit](https://github.com/duckietown/duckietown-shell#ai-do-submissions) your Docker image using `dt`, the [Duckietown Shell](https://github.com/duckietown/duckietown-shell) like so:
 
-    dts aido18 submit <YOUR_DOCKER_HUB_USERNAME>/<YOUR_IMAGE_BASED_ON_GYM_DUCKIETOWN_AGENT>
+    dt aido18 submit <YOUR_DOCKER_HUB_USERNAME>/<YOUR_IMAGE_BASED_ON_GYM_DUCKIETOWN_AGENT>
 
 The referenced Docker image will contain a pretrained model which you have trained locally. If you send us a GPU model, we will run it on the simulator only. If you send us an ARM image, we will evaluate the submission and run it on a physical robot, then send you a link to the corresponding log. Should you wish to participate in the robotarium challenge, you must submit an ARM-based image.
 
