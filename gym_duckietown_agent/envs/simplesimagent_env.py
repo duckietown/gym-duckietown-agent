@@ -30,7 +30,14 @@ class SimpleSimAgentEnv(gym.Env):
         host = os.getenv("DUCKIETOWN_SERVER", "localhost")
 
         # Create ZMQ connection
-        self.sim = RemoteRobot(host, silent=self.silent)
+        # We observe an RGB image with pixels in [0, 255]
+        # Note: the pixels are in uint8 format because this is more compact
+        # than float32 if sent over the network or stored in a dataset
+        self.shape = (camera_height, camera_width, 3)
+        dtype = np.uint8
+
+        self.sim = RemoteRobot(host, silent=self.silent, shape=self.shape,
+                               dtype=dtype)
 
         # Tuple of velocity and steering angle, each in the range
         # [-1, 1] for full speed ahead, full speed backward, full
@@ -42,11 +49,6 @@ class SimpleSimAgentEnv(gym.Env):
             dtype=np.float32
         )
 
-        # We observe an RGB image with pixels in [0, 255]
-        # Note: the pixels are in uint8 format because this is more compact
-        # than float32 if sent over the network or stored in a dataset
-        self.shape = (camera_height, camera_width, 3)
-        dtype = np.uint8
         self.observation_space = spaces.Box(
             low=0,
             high=255,
