@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import gym
 import gym_duckietown_agent  # don't remove this line
 import numpy as np
@@ -59,7 +61,7 @@ for episode in range(EPISODES):
 
         # We receive the name of the challenge at every time step - just to
         # make sure we are solving the correct task
-        challenge = misc["challenge"]
+        # challenge = misc["challenge"]
 
         stdscr.addstr(2, 0, "action {}".format(action))
         stdscr.addstr(3, 0, "reward {}".format(np.around(rew,3)))
